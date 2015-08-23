@@ -1,0 +1,48 @@
+This is the README file for the antivirus implemented
+by the team 'NetCop' as a part of the Network Security
+course at Stony Brook University. Please note that this
+version of SW is only compatible with Linux 12.04, 3.13
+kernel.
+
+
+Installation:
+=============
+
+The use of this SW requires installation of the some
+packages that can be installed with the below commands:
+
+sudo apt-get install libcurl4-gnutls-dev
+sudo apt-get install libssl-dev
+
+After these packages have been installed successfully,
+to build the source of this antivirus SW, run the below
+command:
+
+	make
+
+After make is successfully done, run the below command to
+install the antivirus SW on your machine:
+
+	sudo make install
+
+Note that the above requires sudo permission.
+
+Usage:
+======
+
+After successful installation of the SW, you can use the
+antivirus utility as described here. It has two options:
+a scan option and an update option. The scan option enables
+the user to scan a file or a folder containing files for
+viruses. The command to be used is of the format:
+
+	antivirus -scan [FILE]
+
+	antivirus -scan [FOLDER]
+
+The update option enables the user to update the antivirus
+configuration options for latest virus updates. The update
+option requires that the user has sudo permissions. The
+command to be used is:
+
+	sudo antivirus -update

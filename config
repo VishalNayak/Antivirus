@@ -1,0 +1,12 @@
+bin/sbu_ls
+bin/sbu_rm
+bin/sbu_grep
+bin/sbu_cp
+bin/sbu_ps
+bin/sbu_cat
+sbu_ls
+sbu_rm
+sbu_grep
+sbu_cp
+sbu_ps
+sbu_cat

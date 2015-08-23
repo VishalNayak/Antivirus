@@ -1,0 +1,27 @@
+CSE508 -- Spring 2015
+
+Antivirus for Linux
+
+Even though antivirus software has a bad reputation among security researchers, it still is the most popular type of security software running on peoples' machines.
+
+In this project, you will get to develop a "simple" antivirus scanner that supports updates over the Internet. The antivirus must be able to detect malware based on signatures of malicious programs. Each signature is a series of sequential bytes from the assembly instructions of an executable. For example, the virus database of this antivirus can look like this:
+
+backdoor-1,  68 b0 84 04 08 68 40 84 04 08 51
+virus-1,  0f b6 4c 24 04  89 f2 d3 e8  89 e9 
+...
+In addition to the virus database, you should also support a whitelist of programs that are definitely not malware. This whitelist can be populated with the standard programs and files of a Linux distribution to ensure that your antivirus will never "break" the system. Your whitelist should be based on the SHA-1 hashes of standard linux utilities, e.g.
+f967744b01dba89f0ab96e6ba337a12971fb5304
+ad58a6ae2b7912d689331e8de0c6b9444ab39a77
+aa2a718831a198760cc5923f9cd4178cd8ea4986
+...
+If a file's hash is on that list, then you don't have to scan it further. Both of these lists (database of viruses/whitelist of legitimate programs) must be updatable. A user of the operating system must be able to run a command such as, antivirus-update which will then fetch the latest databases and store the securely on the machine. The antivirus must be able to run in two scanning modes, on-demand and on-access.
+On-Demand Scanning
+
+The first one is on-demand scanning, where the user can run a program to scan a file, or a directory containing files, e.g. antivirus-scan /home/jack/Downloads. If a file is found to be infected you must remove all permissions (e.g. chmod 000 virus), append a ".virus" string in the file's filename and alert the user.
+On-Access Scanning
+
+This is slightly more complicated than the first scanning method. Here the user is trying to execute, or open a file without having checked it with on-demand scanning. In order to protect the user, you must have a kernel driver that hooks into the appropriate system calls (e.g. open, execl, execlp, execle, execv, execvp, execvpe) and scan the file before it is opened. If the file is a virus, then the kernel must refuse to open the file (sending back an appropriate error code) and do the same removal of permissions and renaming mentioned earlier. In addition, you must send a message to the user-space and have it shown to the user, e.g. a graphical pop-up, that explains that the operation failed because a virus was detected.
+Avoiding Double work
+
+In order to avoid double-work, it is recommended that you implement the detection logic of your antivirus, either on the user-space or in the kernel-space (as a driver). If you use the former, the kernel must then invoke a user-space process when it does the on-access scanning. If you use the latter, the on-demand scanner will just delegate the scanning of a file to the kernel, and then use the results of that system call to mark the file as virus or not.
+YOU MUST implement all the project by yourself. DO NOT use existing antivirus software ANY code fragments that you find and use must be documented in your report.
